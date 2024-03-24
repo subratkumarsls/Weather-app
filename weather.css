@@ -1,0 +1,38 @@
+body {
+    background-color: #034f84;
+    display: flex;
+}
+
+.image-button {
+    background-image: url('/IMG-0053.png');
+    background-position: center;
+    background-size: 100%;
+    padding: 30px;
+    color: white;
+    border-radius: 20px;
+}
+
+.city {
+    width: 250px;
+    padding: 30px;
+    margin-right: 20px;
+    background-color: whitesmoke;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.box {
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #92a8d1;
+    padding: 20px 60px;
+    border-radius: 50px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap onto multiple lines */
+    align-items: center; /* Center items vertically */
+}
+
+.weatherimg {
+    width: 100%; /* Set width to 100% for the item you want on a new line */
+}
