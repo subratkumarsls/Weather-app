@@ -1,24 +1,65 @@
 <!DOCTYPE html>
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="weather.css">
-    </head>
-    <body>
-        <div class="box">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="container">
         <div class="search">
-        <textarea class="city"></textarea>
-            <button class="image-button"></button>
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button id="searchButton" >Search</button>
         </div>
         <div class="weather">
-            <img class="weatherimg" src="IMG-0054.png">
+            <img id="weather-img" src="IMG-0054.png" alt="Weather Icon">
+        </div>
+        <div class="details">
+            <h2 id="temperature">Temperature: 23°C</h2>
+            <p id="weatherStatus" class="weather-status">Weather: Sunny</p>
+            <div class="minor-details">
+                <p id="feelsLike" class="feels-like">Feels like: 20°C</p>
+                <p id="humidity" class="humidity">Humidity: 50%</p>
+            </div>
+            <div class="minor-details2">
+                <p id="maxTemp" class="max_temp">Max Temp: -</p>
+                <p id="minTemp" class="min_temp">Min Temp: -</p>
+            </div>
         </div>
     </div>
-        <script src="" async defer></script>
-    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cityInput = document.getElementById('cityInput');
+            const searchButton = document.getElementById('searchButton');
+
+            searchButton.addEventListener('click', function() {
+                const cityName = cityInput.value;
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=081946155b131954f71eae2da81fe366&units=metric`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const main = data.main;
+                        const weather = data.weather[0];
+                        const weatherIcon = weather.icon; // Get the weather icon code
+                        const iconUrl = `http://openweathermap.org/img/wn/${weatherIcon}.png`; // Construct the URL for the weather icon
+                        document.getElementById('weather-img').src = iconUrl; // Set the src attribute of the weather icon
+                        document.getElementById('weatherStatus').textContent = `Weather: ${weather.description}`;
+                        document.getElementById('temperature').textContent = `Temperature: ${main.temp}°C`;
+                        document.getElementById('feelsLike').textContent = `Feels like: ${main.feels_like}°C`;
+                        document.getElementById('humidity').textContent = `Humidity: ${main.humidity}%`;
+                        document.getElementById('maxTemp').textContent = `Max Temp: ${main.temp_max}°C`;
+                        document.getElementById('minTemp').textContent = `Min Temp: ${main.temp_min}°C`;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            });
+        });
+    </script>
+</body>
 </html>
